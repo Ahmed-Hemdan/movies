@@ -7,23 +7,27 @@ import 'package:movies/Cubit/States.dart';
 import 'package:movies/Screens/SplashScreen.dart';
 import 'package:movies/Shared/SharedPreferences.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
-  Shared.init();
-  bool? isDark = Shared.getDarkData();
-  runApp(MyApp());
+  await Cachhelper.init();
+  bool? isDark = Cachhelper.getDarkData(key: "isDark");
+  runApp(MyApp(isDark: isDark!,));
 }
 
 class MyApp extends StatelessWidget {
+  bool isDark;
   MyApp({
     Key? key,
+    required this.isDark
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit()..fetchMovies(),
+      create: (context) => AppCubit()..changeAppTheme(
+        fromShared: isDark
+      ),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) => MaterialApp(

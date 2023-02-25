@@ -68,8 +68,8 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 CupertinoSwitch(
                   activeColor: Colors.yellow[600],
-                  value: AppCubit.get(context).switched,
-                  onChanged: (bool value) => AppCubit.get(context).darkTheme() ,
+                  value: AppCubit.get(context).isDark,
+                  onChanged: (bool value) => AppCubit.get(context).changeAppTheme() ,
                 ),
               ],
             ),

@@ -10,6 +10,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnimatedSplashScreen(
+        function: ()=>AppCubit.get(context).fetchMovies(),
         backgroundColor: AppCubit.get(context).isDark == false
             ? Colors.white
             : AppCubit.get(context).isDark == true

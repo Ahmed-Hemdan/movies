@@ -16,7 +16,7 @@ class DefualtScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 17),
               child: IconButton(
                 onPressed: () {
-                  AppCubit.get(context).darkTheme();
+                  AppCubit.get(context).changeAppTheme();
                 },
                 icon: const Icon(
                   Icons.brightness_4_outlined,

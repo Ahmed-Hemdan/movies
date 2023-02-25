@@ -67,7 +67,7 @@ class AppCubit extends Cubit<AppStates> {
     } catch (e) {
       print(e);
     }
-    chechDarkMode();
+
     emit(GetMoviesApi());
     return null;
   }
@@ -105,37 +105,18 @@ class AppCubit extends Cubit<AppStates> {
     emit(GetImageFromCamera());
   }
 
-  bool switched = false;
-  bool? isDark;
-  void darkTheme() async {
-    switched = !switched;
-    await putDarkData(switched: switched);
-    isDark = getDarkData();
-    print(isDark);
-    emit(SwitchDarkTheme());
-  }
-
-  void chechDarkMode() {
-    if (getDarkData() == null) {
-      isDark = switched;
-      print(isDark);
-    } else {
-      isDark = getDarkData();
-      print(isDark);
+  bool isDark = false;
+  void changeAppTheme({bool? fromShared}) {
+    if (fromShared != null) {
+      isDark = fromShared;
+    }else {
+      isDark = !isDark;
     }
-    emit(ChechDarkTheme());
+    Cachhelper.putDarkData(key: "isDark", value: isDark).then(
+      (value) => emit(
+        SwitchDarkTheme(),
+      ),
+    );
   }
-
-  SharedPreferences? sharedPreferences;
-  init() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-  }
-
-  Future<bool?> putDarkData({required bool? switched}) async {
-    return await sharedPreferences?.setBool("isDark", switched!);
-  }
-
-  bool? getDarkData() {
-    return sharedPreferences?.getBool("isDark");
-  }
+  
 }
