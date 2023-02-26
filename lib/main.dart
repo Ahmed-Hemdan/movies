@@ -12,22 +12,22 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   await Cachhelper.init();
   bool? isDark = Cachhelper.getDarkData(key: "isDark");
-  runApp(MyApp(isDark: isDark!,));
+  if (isDark == null) {
+    isDark = false;
+  } 
+  runApp(MyApp(
+    isDark: isDark,
+  ));
 }
 
 class MyApp extends StatelessWidget {
   bool isDark;
-  MyApp({
-    Key? key,
-    required this.isDark
-  }) : super(key: key);
+  MyApp({Key? key, required this.isDark}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit()..changeAppTheme(
-        fromShared: isDark
-      ),
+      create: (context) => AppCubit()..callTwo(isDark),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) => MaterialApp(

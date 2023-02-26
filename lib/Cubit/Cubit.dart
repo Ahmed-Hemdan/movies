@@ -109,14 +109,19 @@ class AppCubit extends Cubit<AppStates> {
   void changeAppTheme({bool? fromShared}) {
     if (fromShared != null) {
       isDark = fromShared;
-    }else {
+      emit(SwitchDarkTheme());
+    } else {
       isDark = !isDark;
+      Cachhelper.putDarkData(key: "isDark", value: isDark).then(
+        (value) => emit(
+          SwitchDarkTheme(),
+        ),
+      );
     }
-    Cachhelper.putDarkData(key: "isDark", value: isDark).then(
-      (value) => emit(
-        SwitchDarkTheme(),
-      ),
-    );
   }
-  
+
+  void callTwo(value) {
+    fetchMovies();
+    changeAppTheme(fromShared: value);
+  }
 }
